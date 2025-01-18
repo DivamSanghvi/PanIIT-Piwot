@@ -442,3 +442,5 @@ export const analyzeCattleDisease = async (req, res) => {
       });
   }
 };
+
+  
