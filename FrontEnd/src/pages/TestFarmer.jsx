@@ -1,11 +1,74 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaLeaf, FaCloudUploadAlt, FaMicroscope, FaShieldAlt } from 'react-icons/fa'
 import PlantDiseaseHero from '../components/other/FarmerHero'
 import axios from 'axios'
+import useTextToSpeech from './textToSpeech'
 
+
+// const getSelectedText = () => {
+//   const selection = window.getSelection();
+//   const selectedText = selection.toString();
+//   console.log(selectedText); // Logs the selected text
+//   return selectedText;
+// };
 
 const EnhancedPlantDiseaseAnalyzer = () => {
+
+  // const [selectedText, setSelectedText] = useState("");
+  // const { speakText } = useTextToSpeech();  // Hook to use text-to-speech functionality
+
+  // useEffect(() => {
+  //   const handleSelectionChange = () => {
+  //     const selection = window.getSelection();
+  //     const selectedText = selection.toString();
+  //     setSelectedText(selectedText);  // Update state with selected text
+  //     if (selectedText) {
+  //       speakText(selectedText);  // Automatically speak the selected text
+  //     }
+  //   };
+
+  //   // Listen for selection change
+  //   document.addEventListener('selectionchange', handleSelectionChange);
+
+  //   // Clean up event listener on component unmount
+  //   return () => {
+  //     document.removeEventListener('selectionchange', handleSelectionChange);
+  //   };
+  // }, [speakText]);
+
+  const [selectedText, setSelectedText] = useState("");
+  const { speakText } = useTextToSpeech(); // Hook to use text-to-speech functionality
+
+  useEffect(() => {
+    let debounceTimeout;
+
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      const selectedText = selection.toString();
+
+      // Clear any existing debounce timeout
+      clearTimeout(debounceTimeout);
+
+      // Set a debounce delay (e.g., 500ms) to wait for user to stop selecting
+      debounceTimeout = setTimeout(() => {
+        setSelectedText(selectedText); // Update state with selected text
+        if (selectedText) {
+          speakText(selectedText); // Trigger speech only after user stops selecting
+        }
+      }, 500); // Adjust debounce delay as needed
+    };
+
+    // Listen for selection change
+    document.addEventListener("selectionchange", handleSelectionChange);
+
+    // Clean up event listener and debounce timeout on component unmount
+    return () => {
+      document.removeEventListener("selectionchange", handleSelectionChange);
+      clearTimeout(debounceTimeout);
+    };
+  }, [speakText])
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [file, setFile] = useState(null)
     const [fileURL, setFileURL] = useState(null)  // Add this new state
@@ -63,6 +126,10 @@ const EnhancedPlantDiseaseAnalyzer = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
         <PlantDiseaseHero/>
+        {/* <div style={{ marginTop: "20px" }}>
+        <h3>Selected Text:</h3>
+        <p>{selectedText ? selectedText : "No text selected."}</p>
+      </div> */}
         
       <section className="relative py-20 overflow-hidden bg-gradient-to-r from-orange-500 to-yellow-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

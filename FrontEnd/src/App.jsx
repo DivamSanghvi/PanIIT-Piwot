@@ -29,10 +29,25 @@ import Home from './pages/Home'
 import TestFarmer from './pages/TestFarmer'
 import Dipti from './pages/Dipti'
 import EnhancedCropLifecycleTimeline from './pages/LifeCycle'
+import { useEffect } from 'react'
+import SpeechWidget from './pages/textToSpeech'
 
 function App() {
+  useEffect(() => {
+    // Load Google Translate Script dynamically (if not added in index.html)
+    const script = document.createElement('script');
+    script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script); // Clean up script after component unmounts
+    };
+  }, [])
   return (
     <section className='overflow-y-hidden'>
+      <div className='flex mt-10'><div><SpeechWidget /></div>
+      <div id="google_translate_element" className="mt-1"></div></div>
       <Navbar />
       <main className=' mx-auto container min-h-screen'>
         <Routes>
