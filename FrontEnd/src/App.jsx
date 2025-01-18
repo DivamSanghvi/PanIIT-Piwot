@@ -27,10 +27,12 @@ import Footer from './components/other/Footer'
 import Olympiads from './pages/Olympiads'
 import Home from './pages/Home'
 import TestFarmer from './pages/TestFarmer'
-import Dipti from './pages/Dipti'
+
 import EnhancedCropLifecycleTimeline from './pages/LifeCycle'
 import { useEffect } from 'react'
 import SpeechWidget from './pages/textToSpeech'
+import CattleDiseaseAnalyzer from './pages/CattleDoc'
+
 
 function App() {
   useEffect(() => {
@@ -78,6 +80,8 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/test" element={<TestFarmer />} />
           <Route path="/lifecycle" element={<EnhancedCropLifecycleTimeline/>} />
+          <Route path="/cattle" element={<CattleDiseaseAnalyzer/>} />
+          
         </Routes>
       </main>
       <Footer />

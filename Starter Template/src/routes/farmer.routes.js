@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { analyzePlantDisease, askGemini, getCropLifeCycle, getWeatherByPincode, signup } from "../controllers/FarmerControllers/farmer.controller.js";
+import { analyzeCattleDisease, analyzePlantDisease, askGemini, getCropLifeCycle, getWeatherByPincode, signup } from "../controllers/FarmerControllers/farmer.controller.js";
 import { login } from "../controllers/FarmerControllers/farmer.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 const router = Router()
@@ -14,5 +14,12 @@ router.route("/plantDisease").post(upload.fields([
     }
 ]),analyzePlantDisease)
 router.route("/croplifecycle/:farmerId").post(getCropLifeCycle);
-router.route("/get-weather/:pincode").get(getWeatherByPincode)
+router.route("/get-weather/:pincode").get(getWeatherByPincode);
+router.route("/cattleDisease").post(upload.fields([
+    {
+        name: "photo",
+        maxCount:1
+    }
+]),analyzeCattleDisease)
+
 export default router

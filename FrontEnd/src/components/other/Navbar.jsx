@@ -33,10 +33,10 @@ const Navbar = () => {
   const moreButtonRef = useRef(null);
 
   const navItems = {
-    Projects: "/project",
-    Consultation: "/consultation",
+    PlantDoc: "/test",
+    KhetDost : "/lifecycle",
     "Free E-books": "/books",
-    Academic: "/academic",
+    CattleDoc:  "/cattle",
     More: "/", // You can customize this route or leave it empty for a dropdown toggle
   };
 
