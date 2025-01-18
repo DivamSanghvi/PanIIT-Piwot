@@ -338,3 +338,39 @@ export const getCropLifeCycle = async (req, res) => {
 };
 
 
+const API_KEY = 'fc32fda44f3ca783a9f051b2ef9b9877';
+const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+
+
+export const getWeatherByPincode = async (req, res) => {
+  const { pincode } = req.params
+  const countryCode = 'IN'; // India
+
+  // Construct the API URL
+  const url = `${BASE_URL}?zip=${pincode},${countryCode}&appid=${API_KEY}&units=metric`;
+
+  try {
+    const response = await axios.get(url);
+    const weatherData = response.data;
+
+    // Structure the response
+    const weatherInfo = {
+      location: weatherData.name,
+      temperature: weatherData.main.temp,
+      weather: weatherData.weather[0].description,
+      humidity: weatherData.main.humidity,
+      windSpeed: weatherData.wind.speed,
+    };
+
+    res.json({
+      success: true,
+      data: weatherInfo,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch weather data.',
+    });
+  }
+};
