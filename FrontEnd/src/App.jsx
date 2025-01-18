@@ -26,6 +26,8 @@ import GK from './pages/GK'
 import Footer from './components/other/Footer'
 import Olympiads from './pages/Olympiads'
 import Home from './pages/Home'
+import TestFarmer from './pages/TestFarmer'
+import Dipti from './pages/Dipti'
 
 function App() {
   return (
@@ -58,6 +60,8 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/test" element={<TestFarmer />} />
+          <Route path="/dipti" element={<Dipti/>} />
         </Routes>
       </main>
       <Footer />
