@@ -28,6 +28,7 @@ import Olympiads from './pages/Olympiads'
 import Home from './pages/Home'
 import TestFarmer from './pages/TestFarmer'
 import Dipti from './pages/Dipti'
+import EnhancedCropLifecycleTimeline from './pages/LifeCycle'
 
 function App() {
   return (
@@ -61,7 +62,7 @@ function App() {
           <Route path="/resources" element={<Resources />} />
           <Route path="/team" element={<Team />} />
           <Route path="/test" element={<TestFarmer />} />
-          <Route path="/dipti" element={<Dipti/>} />
+          <Route path="/lifecycle" element={<EnhancedCropLifecycleTimeline/>} />
         </Routes>
       </main>
       <Footer />

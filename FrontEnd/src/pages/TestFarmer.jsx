@@ -2,50 +2,68 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaLeaf, FaCloudUploadAlt, FaMicroscope, FaShieldAlt } from 'react-icons/fa'
 import PlantDiseaseHero from '../components/other/FarmerHero'
+import axios from 'axios'
+
 
 const EnhancedPlantDiseaseAnalyzer = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [file, setFile] = useState(null)
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [results, setResults] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [file, setFile] = useState(null)
+    const [fileURL, setFileURL] = useState(null)  // Add this new state
+    const [isAnalyzing, setIsAnalyzing] = useState(false)
+    const [results, setResults] = useState(null)
+    
+    const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0]
+      setFile(selectedFile)
+      setFileURL(URL.createObjectURL(selectedFile))  // Create URL for the file
+    }
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0])
-  }
-
-  const handleAnalyze = async () => {
-    if (!file) return
-    setIsModalOpen(false)
-    setIsAnalyzing(true)
-    // Simulating API call
-    setTimeout(() => {
-      setIsAnalyzing(false)
-      setResults({
-        disease: "Frog-eye Leaf Spot (Cercospora Leaf Spot)",
-        confidence: 95,
-        description: "Frog-eye leaf spot is a fungal disease caused by the fungus Cercospora sojina. It's characterized by small, reddish-brown to dark brown lesions that develop on leaves, stems, and pods. These lesions often have a lighter, yellowish-green halo around them, giving them a \"frog-eye\" appearance. As the disease progresses, lesions enlarge, coalesce (merge), and may cause leaf defoliation. Severe infections can significantly reduce soybean yield and quality.",
-        cause: "The cause is the fungal pathogen Cercospora sojina. The fungus survives in infected plant debris in the soil over the winter, and spores are then spread by wind and rain splash to healthy plants during the growing season. Warm, humid conditions favor disease development.",
-        solutions: [
-          { title: "Crop Rotation", description: "Rotate soybeans with non-host crops for at least 2-3 years to disrupt the fungal life cycle." },
-          { title: "Residue Management", description: "Properly till or incorporate infected crop debris into the soil to promote decomposition and reduce inoculum levels." },
-          { title: "Weed Control", description: "Weeds can harbor the fungus, so good weed management is important." },
-          { title: "Planting Date", description: "Planting at the recommended time for your region can reduce disease severity." },
-          { title: "Chemical Control", description: "Fungicide application is most effective as a preventative measure or early in the disease's progression." }
-        ],
-        precautions: [
-          "Plant resistant soybean varieties",
-          "Use certified, disease-free seed",
-          "Regularly scout fields for signs of frog-eye leaf spot",
-          "Clean equipment after working in infected fields"
-        ]
-      })
-    }, 3000)
-  }
-
+    const handleAnalyze = async () => {
+        if (!file) return;
+      
+        setIsModalOpen(false);
+        setIsAnalyzing(true);
+      
+        try {
+          const formData = new FormData();
+          formData.append('photo', file);
+      
+          const response = await axios.post('http://localhost:8000/api/v1/user/plantDisease', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+      
+          if (response.data.success) {
+            // Extract the JSON string from the response
+            const jsonString = response.data.data
+              .replace('```json\n', '')  // Remove opening markdown
+              .replace('\n```', '')      // Remove closing markdown
+              .trim();                   // Remove any extra whitespace
+      
+            // Parse the JSON string into an object
+            const analysisData = JSON.parse(jsonString);
+      
+            // Set the results with the parsed data and image URL
+            setResults({
+              ...analysisData,
+              imageUrl: fileURL,
+            });
+          } else {
+            console.error('API returned failure:', response.data.message);
+          }
+      
+        } catch (error) {
+          console.error('Error calling the API:', error);
+          // You might want to show an error message to the user here
+        } finally {
+          setIsAnalyzing(false);
+        }
+      };
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
         <PlantDiseaseHero/>
-      {/* Hero Section */}
+        
       <section className="relative py-20 overflow-hidden bg-gradient-to-r from-orange-500 to-yellow-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
@@ -177,69 +195,73 @@ const EnhancedPlantDiseaseAnalyzer = () => {
         )}
       </AnimatePresence>
 
-      {/* Results Display */}
-      <AnimatePresence>
-        {results && (
-          <motion.section 
-            className="py-16 bg-white"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">Analysis Results</h2>
-              <div className="bg-orange-50 p-6 rounded-lg shadow-lg mb-8">
-                <div className="flex items-center mb-4">
-                  <img src="/placeholder.svg?height=100&width=100" alt="Disease Image" className="w-16 h-16 rounded-full mr-4" />
-                  <div>
-                    <h3 className="text-2xl font-semibold text-orange-600">{results.disease}</h3>
-                    <p className="text-gray-600">Confidence: {results.confidence}%</p>
-                  </div>
-                </div>
-                <p className="mb-4 text-gray-700">{results.description}</p>
-                <h4 className="text-xl font-semibold mb-2 text-gray-900">Probable Cause:</h4>
-                <p className="mb-4 text-gray-700">{results.cause}</p>
-              </div>
-              
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">Treatment Plan</h3>
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
-                {results.solutions.map((solution, index) => (
-                  <motion.div 
-                    key={index}
-                    className="bg-white p-4 rounded-lg shadow border border-orange-200"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <h4 className="text-lg font-semibold mb-2 text-orange-600">{solution.title}</h4>
-                    <p className="text-gray-700">{solution.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-              
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">Future Precautions</h3>
-              <ul className="list-disc pl-5 mb-8">
-                {results.precautions.map((precaution, index) => (
-                  <motion.li 
-                    key={index}
-                    className="text-gray-700 mb-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    {precaution}
-                  </motion.li>
-                ))}
-              </ul>
-              
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-blue-800 font-semibold">Important Note:</p>
-                <p className="text-blue-700">This analysis is based on visual observation. For a definitive diagnosis, it's always recommended to submit a sample to a plant diagnostic clinic or a local extension office for confirmation and specific treatment recommendations.</p>
-              </div>
+{/* Results Display */}
+<AnimatePresence>
+  {results && (
+    <motion.section 
+      className="py-16 bg-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">Analysis Results</h2>
+        <div className="bg-orange-50 p-6 rounded-lg shadow-lg mb-8">
+          <div className="flex items-center mb-4">
+            <img 
+              src={results.imageUrl || "/placeholder.svg?height=100&width=100"} 
+              alt="Analyzed Plant" 
+              className="w-24 h-24 object-cover rounded-lg mr-4 border-2 border-orange-200"
+            />
+            <div>
+              <h3 className="text-2xl font-semibold text-orange-600">{results.disease || 'Unknown Disease'}</h3>
+              <p className="text-gray-600">Confidence: {results.confidence || 0}%</p>
             </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
+          </div>
+          <p className="mb-4 text-gray-700">{results.description || 'No description available'}</p>
+          <h4 className="text-xl font-semibold mb-2 text-gray-900">Probable Cause:</h4>
+          <p className="mb-4 text-gray-700">{results.cause || 'Cause not available'}</p>
+        </div>
+        
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">Treatment Plan</h3>
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {(results.solutions || []).map((solution, index) => (
+            <motion.div 
+              key={index}
+              className="bg-white p-4 rounded-lg shadow border border-orange-200"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <h4 className="text-lg font-semibold mb-2 text-orange-600">{solution.title || 'Treatment Step'}</h4>
+              <p className="text-gray-700">{solution.description || 'No description available'}</p>
+            </motion.div>
+          ))}
+        </div>
+        
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">Future Precautions</h3>
+        <ul className="list-disc pl-5 mb-8">
+          {(results.precautions || []).map((precaution, index) => (
+            <motion.li 
+              key={index}
+              className="text-gray-700 mb-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              {precaution}
+            </motion.li>
+          ))}
+        </ul>
+        
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <p className="text-blue-800 font-semibold">Important Note:</p>
+          <p className="text-blue-700">This analysis is based on visual observation. For a definitive diagnosis, it's always recommended to submit a sample to a plant diagnostic clinic or a local extension office for confirmation and specific treatment recommendations.</p>
+        </div>
+      </div>
+    </motion.section>
+  )}
+</AnimatePresence>
 
       {/* Call-to-Action Section */}
       <section className="py-20 bg-orange-500 text-white">

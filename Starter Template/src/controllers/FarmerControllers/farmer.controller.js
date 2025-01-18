@@ -21,37 +21,55 @@ const geminiConfig = {
 });
 
 export const signup = async (req, res) => {
-    try {
-      const { fullname, phoneNumber, aadharCard, email, address, landDetails, farmingExperience, password } = req.body;
-  
-      // Check if farmer already exists
-      const existingFarmer = await Farmer.findOne({ phoneNumber });
-      if (existingFarmer) {
-        return res.status(400).json({ message: "Farmer already exists with this phone number." });
-      }
-  
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Create and save new farmer
-      const newFarmer = new Farmer({
-        fullname,
-        phoneNumber,
-        aadharCard,
-        email,
-        address,
-        landDetails,
-        farmingExperience,
-        password: hashedPassword,
-      });
-  
-      await newFarmer.save();
-  
-      res.status(201).json({ message: "Farmer registered successfully!" });
-    } catch (error) {
-      res.status(500).json({ message: "Error during signup", error: error.message });
+  try {
+    const {
+      fullname,
+      phoneNumber,
+      aadharCard,
+      email,
+      address,
+      landDetails,
+      preferredCrops,
+      farmingExperience,
+      equipmentOwned,
+      climaticDetails,
+      password,
+    } = req.body;
+
+    // Check if the farmer already exists by phone number
+    const existingFarmer = await Farmer.findOne({ phoneNumber });
+    if (existingFarmer) {
+      return res
+        .status(400)
+        .json({ message: "Farmer already exists with this phone number." });
     }
-  };
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create and save new farmer
+    const newFarmer = new Farmer({
+      fullname,
+      phoneNumber,
+      aadharCard,
+      email,
+      address,
+      landDetails,
+      preferredCrops,
+      farmingExperience,
+      equipmentOwned,
+      climaticDetails,
+      password: hashedPassword,
+    });
+
+    await newFarmer.save();
+
+    res.status(201).json({ message: "Farmer registered successfully!" });
+  } catch (error) {
+    console.error("Error during signup:", error.message);
+    res.status(500).json({ message: "Error during signup", error: error.message });
+  }
+};
 
 export const login = async (req, res) => {
     try {
@@ -155,14 +173,33 @@ export const analyzePlantDisease = async (req, res) => {
 
         // Prepare the prompt for the Gemini model
         const promptConfig = [
-            { text: "Analyze the plant disease in this image. Describe the disease, its probable cause, how to solve it, and future precautions." },
+          {
+            text: `Analyze the plant disease in this image and describe the following details in the exact JSON format:
             {
-                inlineData: {
-                    mimeType: "image/jpeg",  // Assuming the image is in JPEG format
-                    data: imageBase64, // Base64 encoded image data
-                },
+              disease: "<Disease Name>",
+              confidence: <Confidence Percentage>,
+              description: "<Brief description of the disease, its symptoms, and affected areas>",
+              cause: "<Cause of the disease (e.g., fungal pathogen, environmental factors)>",
+              solutions: [
+                { title: "<Solution Title>", description: "<Detailed description of the solution>" },
+                ...
+              ],
+              precautions: [
+                "<Precaution 1>",
+                "<Precaution 2>",
+                ...
+              ]
+            }
+            Note: Provide the response exactly as shown in the JSON format above. The first words should mention the disease directly without any line breaks. Be sure to include the cause, possible solutions with their descriptions, and precautions for managing or preventing the disease. Avoid any extra formatting or text.`
+          },
+          {
+            inlineData: {
+              mimeType: "image/jpeg",  // Assuming the image is in JPEG format
+              data: imageBase64, // Base64 encoded image data
             },
+          },
         ];
+        
 
         // Send the image to Gemini for analysis
         const result = await geminiModelVision.generateContent({
@@ -185,3 +222,119 @@ export const analyzePlantDisease = async (req, res) => {
         });
     }
 };
+
+export const getCropLifeCycle = async (req, res) => {
+  const { farmerId } = req.params; // Assuming the farmer's ID is provided in the request params
+
+  try {
+    // Fetch farmer details from the database
+    const farmer = await Farmer.findById(farmerId);
+    if (!farmer) {
+      return res.status(404).json({
+        success: false,
+        message: "Farmer not found",
+      });
+    }
+
+    // Extract necessary information for crop life cycle prediction
+    const { fullname, landDetails, climaticDetails, preferredCrops, farmingExperience, equipmentOwned } = farmer;
+
+    // Prepare the prompt for the Gemini model
+    const promptConfig = [
+      {
+        text: `Generate the crop life cycle for a farmer based on the following information .The response should be structured as follows:
+          Farmer Details:
+            Name: ${fullname.firstname} ${fullname.lastname}
+            Farming Experience: ${farmingExperience} years
+            Equipment Owned: ${equipmentOwned.join(", ")}
+          Land Details:
+            Size: ${landDetails.landSize} acres
+            Soil Type: ${landDetails.soilType}
+            Irrigation Type: ${landDetails.irrigationType}
+          Climatic Details:
+            Average Rainfall: ${climaticDetails.averageRainfall} mm
+            Temperature Range: ${climaticDetails.temperatureRange.min}°C - ${climaticDetails.temperatureRange.max}°C
+          Preferred Crops: ${preferredCrops.join(", ")}
+        
+          The response should contain the following details:
+          {
+            "farmer": {
+              "name": "<Farmer's Name>",
+              "landDetails": {
+                "size": "<Land Size>",
+                "irrigationType": "<Irrigation Type>",
+                "soilType": "<Soil Type>",
+                "preferredCrops": ["<Preferred Crop 1>", "<Preferred Crop 2>"],
+                "farmingExperience": "<Years>",
+                "equipmentOwned": ["<Equipment 1>", "<Equipment 2>"]
+              },
+              "climaticDetails": {
+                "averageRainfall": "<Average Rainfall>",
+                "temperatureRange": {
+                  "min": "<Min Temperature>",
+                  "max": "<Max Temperature>"
+                }
+              }
+            },
+            "cropLifecycle": [
+              {
+                "phase": "January-March",
+                "time": "<Month Range>",
+                "actions": ["<Action 1>", "<Action 2>"],
+                "resources": ["<Resource 1>", "<Resource 2>"]
+              },
+              {
+                "phase": "April-June",
+                "time": "<Month Range>",
+                "actions": ["<Action 1>", "<Action 2>"],
+                "resources": ["<Resource 1>", "<Resource 2>"]
+              },
+              {
+                "phase": "July-August",
+                "time": "<Month Range>",
+                "actions": ["<Action 1>", "<Action 2>"],
+                "resources": ["<Resource 1>", "<Resource 2>"]
+              },
+              {
+                "phase": "September-October",
+                "time": "<Month Range>",
+                "actions": ["<Action 1>", "<Action 2>"],
+                "resources": ["<Resource 1>", "<Resource 2>"]
+              },
+              {
+                "phase": "November-December",
+                "time": "<Month Range>",
+                "actions": ["<Action 1>", "<Action 2>"],
+                "resources": ["<Resource 1>", "<Resource 2>"]
+              }
+            ],
+            "challenges": ["<Challenge 1>", "<Challenge 2>", "<Challenge 3>", "<Challenge 4>", "<Challenge 5>"],
+            "expectedProfitMargin": "<Profit Margin>"
+          }`
+      }
+    ];
+    
+
+    // Assuming geminiModelVision is correctly initialized
+    const result = await geminiModelVision.generateContent({
+      contents: [{ role: "user", parts: promptConfig }],
+    });
+
+    // Assuming the result has a `text` property directly
+    const response = result.response ? result.response.text() : "No response from model";
+
+    // Send the response back as JSON
+    return res.json({
+      success: true,
+      data: response, // Directly use the text or content you want
+    });
+  } catch (error) {
+    console.error("Error fetching crop life cycle:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to retrieve crop life cycle data",
+    });
+  }
+};
+
+

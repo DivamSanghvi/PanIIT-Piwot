@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import picture from "../../../Temp/farmer-holding-crops-field.jpg"
+
 const HeroSection = styled.section`
   background-color: #FFFFFF;
   color: #2B2D42;
