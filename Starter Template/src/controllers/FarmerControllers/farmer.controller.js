@@ -341,9 +341,8 @@ export const getCropLifeCycle = async (req, res) => {
 const API_KEY = 'fc32fda44f3ca783a9f051b2ef9b9877';
 const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
 
-
 export const getWeatherByPincode = async (req, res) => {
-  const { pincode } = req.params
+  const pincode = req.params.pincode;
   const countryCode = 'IN'; // India
 
   // Construct the API URL
