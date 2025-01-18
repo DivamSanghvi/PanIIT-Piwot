@@ -374,3 +374,71 @@ export const getWeatherByPincode = async (req, res) => {
     });
   }
 };
+
+export const analyzeCattleDisease = async (req, res) => {
+  console.log(req.files); // Log the entire req.files object to inspect
+
+  // Check if the image file exists in req.files
+  const imageLocalPath = req.files?.photo && req.files.photo.length > 0 
+      ? req.files.photo[0].path 
+      : null;
+
+  if (!imageLocalPath) {
+      return res.status(400).json({ message: 'No image file uploaded' });
+  }
+
+  try {
+      // Read the uploaded image file and convert it to base64 using fs.promises.readFile
+      const imageFile = await fs.readFile(imageLocalPath); // Using fs.promises.readFile
+      const imageBase64 = imageFile.toString("base64");
+
+      // Prepare the prompt for the Gemini model
+      const promptConfig = [
+        {
+          text: `Analyze the cattle disease shown in this image and provide the following details in the exact JSON format:
+          {
+            disease: "<Disease Name>",
+            confidence: <Confidence Percentage>,
+            description: "<Brief description of the disease, its symptoms, and affected areas atleast 50 words>",
+            cause: "<Cause of the disease (e.g., bacterial infection, viral infection, environmental factors)>",
+            solutions: [
+              { title: "<Solution Title> ", description: "<Detailed description of the solution atleast 50 words>" },
+              ...
+            ],
+            precautions: [
+              "<Precaution 1 atleast 50 words>",
+              "<Precaution 2 atleast 50 words>",
+              ...
+            ]
+          }
+          Note: Provide the response exactly as shown in the JSON format above. Begin with the disease name directly without any line breaks. Include details such as cause, potential solutions, and precautions for managing or preventing the disease. Avoid adding extra formatting or text.`
+        },
+        {
+          inlineData: {
+            mimeType: "image/jpeg", // Assuming the image is in JPEG format
+            data: imageBase64, // Base64 encoded image data
+          },
+        },
+      ];
+
+      // Send the image to Gemini for analysis
+      const result = await geminiModelVision.generateContent({
+          contents: [{ role: "user", parts: promptConfig }],
+      });
+
+      // Get the response from Gemini
+      const response = await result.response;
+
+      // Send back the analysis response
+      return res.json({
+          success: true,
+          data: response.text(), // Assuming the response contains text
+      });
+  } catch (error) {
+      console.error('Error analyzing cattle disease:', error);
+      return res.status(500).json({
+          success: false,
+          message: 'Failed to analyze the cattle disease',
+      });
+  }
+};
