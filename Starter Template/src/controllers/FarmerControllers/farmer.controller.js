@@ -280,32 +280,32 @@ export const getCropLifeCycle = async (req, res) => {
               {
                 "phase": "January-March",
                 "time": "<Month Range>",
-                "actions": ["<Action 1>", "<Action 2>"],
-                "resources": ["<Resource 1>", "<Resource 2>"]
+                "actions": ["<Action 1 minimum 50 words>", "<Action 2>"],
+                "resources": ["<Resource 1 minimum 10 words>", "<Resource 2>"]
               },
               {
                 "phase": "April-June",
                 "time": "<Month Range>",
-                "actions": ["<Action 1>", "<Action 2>"],
-                "resources": ["<Resource 1>", "<Resource 2>"]
+                "actions": ["<Action 1 minimum 50 words>", "<Action 2>"],
+                "resources": ["<Resource 1 minimum 10 words>", "<Resource 2>"]
               },
               {
                 "phase": "July-August",
                 "time": "<Month Range>",
-                "actions": ["<Action 1>", "<Action 2>"],
-                "resources": ["<Resource 1>", "<Resource 2>"]
+                "actions": ["<Action 1 minimum 50 words>", "<Action 2>"],
+                "resources": ["<Resource 1 minimum 10 words>", "<Resource 2>"]
               },
               {
                 "phase": "September-October",
                 "time": "<Month Range>",
-                "actions": ["<Action 1>", "<Action 2>"],
-                "resources": ["<Resource 1>", "<Resource 2>"]
+                "actions": ["<Action 1 minimum 50 words>", "<Action 2>"],
+                "resources": ["<Resource 1 minimum 10 words>", "<Resource 2>"]
               },
               {
                 "phase": "November-December",
                 "time": "<Month Range>",
-                "actions": ["<Action 1>", "<Action 2>"],
-                "resources": ["<Resource 1>", "<Resource 2>"]
+                "actions": ["<Action 1 minimum 50 words>", "<Action 2>"],
+                "resources": ["<Resource 1 minimum 10 words>", "<Resource 2>"]
               }
             ],
             "challenges": ["<Challenge 1>", "<Challenge 2>", "<Challenge 3>", "<Challenge 4>", "<Challenge 5>"],
@@ -336,6 +336,7 @@ export const getCropLifeCycle = async (req, res) => {
     });
   }
 };
+
 
 
 const API_KEY = 'fc32fda44f3ca783a9f051b2ef9b9877';
