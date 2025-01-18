@@ -11,19 +11,33 @@ const EnhancedCropLifecycleTimeline = () => {
   const fetchLifecycleData = async () => {
     setLoading(true);
     setError(null);
+  
     try {
       const response = await axios.post(
         'http://localhost:8000/api/v1/user/croplifecycle/678bd214c670f776228d693b'
       );
   
-      // Since the response contains JSON string wrapped in markdown code blocks,
-      // we need to parse it properly
-      console.log(response.data.data)
-      const rawData = response.data.data;
-      const jsonString = rawData.replace(/```json\n|\n```/g, ''); // Remove markdown code blocks
-      const apiResponse = JSON.parse(jsonString);
+      // Log the raw response to see its structure
+      console.log('Raw response data:', response.data);
   
-      setData(apiResponse);
+      // Get the raw data containing the JSON string
+      const rawData = response.data.data;
+  
+      // Clean the raw string by removing the markdown code blocks
+      const jsonString = rawData.replace(/```json\n|\n```/g, '').trim(); // Remove markdown code blocks and trim extra whitespace
+  
+      // Check if the cleaned string is a valid JSON string before parsing
+      try {
+        const apiResponse = JSON.parse(jsonString);
+        console.log('Parsed API response:', apiResponse); // Log parsed data to verify
+  
+        // Set the cleaned data
+        setData(apiResponse);
+      } catch (parseError) {
+        console.error('Error parsing JSON:', parseError.message);
+        setError('Failed to parse lifecycle data.');
+      }
+  
     } catch (error) {
       console.error('Error fetching lifecycle data:', error.message);
       setError('Failed to fetch data. Please try again.');
@@ -31,6 +45,7 @@ const EnhancedCropLifecycleTimeline = () => {
       setLoading(false);
     }
   };
+  
 
   const handleDotClick = (phase) => {
     setSelectedPhase(phase);
