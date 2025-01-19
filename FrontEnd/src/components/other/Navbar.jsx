@@ -35,7 +35,7 @@ const Navbar = () => {
   const navItems = {
     PlantDoc: "/test",
     KhetDost : "/lifecycle",
-    "Free E-books": "/books",
+    "Krushi-Store": "/product",
     CattleDoc:  "/cattle",
     More: "/", // You can customize this route or leave it empty for a dropdown toggle
   };

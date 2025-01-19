@@ -32,6 +32,7 @@ import EnhancedCropLifecycleTimeline from './pages/LifeCycle'
 import { useEffect } from 'react'
 import SpeechWidget from './pages/textToSpeech'
 import CattleDiseaseAnalyzer from './pages/CattleDoc'
+import ProductSearchAndResults from './pages/Product'
 
 
 function App() {
@@ -81,7 +82,7 @@ function App() {
           <Route path="/test" element={<TestFarmer />} />
           <Route path="/lifecycle" element={<EnhancedCropLifecycleTimeline/>} />
           <Route path="/cattle" element={<CattleDiseaseAnalyzer/>} />
-          
+          <Route path="/product" element={<ProductSearchAndResults/>} />
         </Routes>
       </main>
       <Footer />
