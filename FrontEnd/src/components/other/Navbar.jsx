@@ -85,7 +85,7 @@ const Navbar = () => {
               style={{ color: colors.secondary }}
               className="text-xl font-semibold"
             >
-              Urja Talents
+              Kurshi Karnti
             </span>
           </Link>
         </div>

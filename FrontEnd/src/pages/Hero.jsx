@@ -12,15 +12,16 @@ const HeroSection = () => {
   }
 
   const rotatingPhrases = [
-    'With Expert Guidance',
+    'For Accurate Crop Price Predictions',
     3000,
-    'With Outstanding Teachers',
+    'For Effective Disease Management',
     3000,
-    'With Constant Support',
+    'For Expert Farming Solutions',
     3000,
-    'With Innovative Learning',
+    'For Comprehensive Crop Lifecycle Information',
     3000,
-  ]
+];
+
 
   // Animation variants for staggered text
   const containerVariants = {
@@ -61,7 +62,7 @@ const HeroSection = () => {
               style={{ color: colors.primary }}
               className="inline-block text-lg font-semibold mb-4 text-3xl"
             >
-              Welcome to <span className='font-bold mb-4 text-gray-600'>URJA TALENTS</span>
+              Welcome to <span className='font-bold mb-4 text-gray-600'>KRUSHI KARNTI</span>
             </motion.span>
 
             <motion.div variants={itemVariants}>
@@ -69,7 +70,7 @@ const HeroSection = () => {
                 style={{ color: colors.secondary }}
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
               >
-                Transform Your Learning Experience
+                Transform Your Farming Journey
                 <span className="block h-[1.2em]"> {/* Fixed height container for typewriter */}
                   <TypeAnimation
                     sequence={rotatingPhrases}
@@ -86,9 +87,7 @@ const HeroSection = () => {
               variants={itemVariants}
               className="text-lg text-gray-600 max-w-xl py-8"
             >
-              Discover a world of opportunities with our comprehensive educational platform. 
-              We provide cutting-edge resources, expert mentorship, and innovative learning solutions 
-              to help you achieve your goals.
+              Explore a world of possibilities with our comprehensive farming platform. We offer real-time crop price insights, expert disease prediction, and actionable farming solutions to help you maximize your harvest and grow sustainably.
             </motion.p>
 
             <motion.div
@@ -119,8 +118,8 @@ const HeroSection = () => {
               className="grid grid-cols-3 gap-4 pt-8"
             >
               {[
-                { number: '1000+', label: 'Students' },
-                { number: '50+', label: 'Courses' },
+                { number: '1000+', label: 'Farmer' },
+                { number: '50+', label: 'Experts' },
                 { number: '95%', label: 'Success Rate' }
               ].map((stat, index) => (
                 <motion.div

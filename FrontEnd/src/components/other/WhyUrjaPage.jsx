@@ -71,13 +71,12 @@ export default function WhyUrja() {
                   animate={{ color: '#FF6B00' }}
                   transition={{ duration: 0.5, delay: 1 }}
                 >
-                  URJA
+                  KURSHI
                 </motion.span>{' '}
-                Talents?
+                KARNTI
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                We all know the benefits and need of extra tutoring. With classroom flooded with 20-40 students, 
-                tuition has become something very necessary for us all.
+              Farming is more than just a job—it's a science. With varying climates, soil conditions, and crop types, expert guidance has become essential for farmers to thrive. Our platform provides the knowledge and tools needed to make informed decisions and optimize crop production
               </p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -143,8 +142,7 @@ export default function WhyUrja() {
               Our HIGH-lights
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Discover what makes URJA Talents the perfect choice for your educational journey
-            </p>
+            Discover what makes our platform the perfect choice for enhancing your farming journey, from crop price predictions to expert disease management and sustainable farming solutions</p>
           </motion.div>
 
           <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
@@ -195,52 +193,53 @@ export default function WhyUrja() {
 
       {/* Features Grid */}
       <section className="bg-gray-50 py-24 sm:py-32">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto max-w-7xl px-6 lg:px-8"
-        >
-          <motion.div
-            variants={itemVariants}
-            className="mx-auto max-w-2xl lg:text-center"
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need to excel
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              At URJA, we provide comprehensive support for your educational journey
-            </p>
-          </motion.div>
+  <motion.div
+    variants={containerVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    className="mx-auto max-w-7xl px-6 lg:px-8"
+  >
+    <motion.div
+      variants={itemVariants}
+      className="mx-auto max-w-2xl lg:text-center"
+    >
+      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Everything You Need for a Thriving Farm
+      </h2>
+      <p className="mt-6 text-lg leading-8 text-gray-600">
+        At our platform, we provide all the tools, knowledge, and expert guidance to help you manage your crops, optimize yields, and navigate the challenges of modern farming.
+      </p>
+    </motion.div>
 
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
-                  className="flex flex-col"
-                >
-                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                    <motion.div
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <feature.icon className="h-5 w-5 flex-none text-[#FF6B00]" />
-                    </motion.div>
-                    {feature.name}
-                  </dt>
-                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                    <p className="flex-auto">{feature.description}</p>
-                  </dd>
-                </motion.div>
-              ))}
-            </dl>
-          </div>
-        </motion.div>
-      </section>
+    <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+      <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+        {features.map((feature, index) => (
+          <motion.div
+            key={feature.name}
+            variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
+            className="flex flex-col"
+          >
+            <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
+                <feature.icon className="h-5 w-5 flex-none text-[#FF6B00]" />
+              </motion.div>
+              {feature.name}
+            </dt>
+            <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
+              <p className="flex-auto">{feature.description}</p>
+            </dd>
+          </motion.div>
+        ))}
+      </dl>
+    </div>
+  </motion.div>
+</section>
+
 
       
     </div>
@@ -249,41 +248,43 @@ export default function WhyUrja() {
 
 const benefits = [
   {
-    title: 'Your All-in-One Stop',
-    description: 'We mentor, coach and motivate students to excel academically & overall. Our skilled tutors teach all standards and subjects across boards.',
+    title: 'Comprehensive Farming Support',
+    description: 'We provide expert guidance on crop management, disease prediction, and farming solutions to ensure a thriving farm.',
     icon: GraduationCap,
     href: '#',
   },
   {
-    title: 'Personalized Attention',
-    description: 'We believe every child is different. We provide one-on-one or small group classes for personalized attention and better learning outcomes.',
+    title: 'Tailored Solutions for Your Farm',
+    description: 'Each farm is unique. Our personalized solutions are crafted to meet the specific needs of your crops and farm management.',
     icon: Users,
     href: '#',
   },
   {
-    title: 'Best Tutor Match',
-    description: 'Our teachers are filtered according to Experience, Skills, Knowledge as per your exact requirements. You choose the teacher that best fits your needs.',
+    title: 'Expert Advisory Services',
+    description: 'Our team of experts offers advice on crop cycles, pricing strategies, and sustainable farming practices to boost productivity.',
     icon: CheckCircle,
     href: '#',
   },
 ]
 
+
 const features = [
   {
-    name: 'Regular PTMA Meets',
-    description: 'We conduct regular Parent-Teacher-Management-Association meets for assessments, progress discussions, and improvement suggestions.',
+    name: 'Regular Farm Advisory Meetings',
+    description: 'We conduct regular advisory meets to discuss crop progress, disease management, and improvement suggestions tailored to your farm.',
     icon: Calendar,
   },
   {
-    name: 'Pay-Per-Hour System',
-    description: 'We charge hour-wise, not subject-wise or board-wise. This makes our pricing transparent and cost-effective for you.',
+    name: 'Pay-Per-Consultation System',
+    description: 'We offer consultation services on a per-session basis, ensuring transparent and affordable pricing for every farming need.',
     icon: Clock,
   },
   {
-    name: 'Comprehensive Support',
-    description: 'From academic tutoring to competitive exam preparation, we provide complete educational support under one roof.',
+    name: 'Comprehensive Farming Support',
+    description: 'From crop price prediction to disease management and sustainable practices, we provide full-spectrum farming support under one roof.',
     icon: CheckCircle,
   },
 ]
+
 
 

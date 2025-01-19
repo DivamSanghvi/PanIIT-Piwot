@@ -11,51 +11,51 @@ const AnimatedServiceCards = () => {
   }
 
   
-
   const services = [
     {
       icon: BookOpen,
-      title: 'Academic Tuitions',
-      description: 'Comprehensive academic support across all boards, subjects, and standards. Designed to strengthen foundational knowledge and ensure academic excellence.',
+      title: 'Crop Price Prediction',
+      description: 'Get real-time crop price insights to help farmers make informed decisions on when and where to sell their produce.',
       delay: 0,
-      navigationlink: '/academic',
+      navigationlink: '/crop-price',
     },
     {
       icon: User,
-      title: 'General Knowledge',
-      description: 'Interactive sessions designed to expand young minds with everything about everything, covering fun and engaging topics for children of various age groups.',
+      title: 'Disease Prediction and Management',
+      description: 'Utilize advanced disease prediction tools to diagnose plant diseases and access expert solutions for effective management.',
       delay: 0.2,
-      navigationlink: '/gk',
+      navigationlink: '/disease-prediction',
     },
     {
       icon: MessageCircle,
-      title: 'English Grammar, Creative Writing, Public Speaking',
-      description: 'Improve English skills with programs that include grammar, creative writing, and public speaking, tailored for different age groups to foster confidence and articulation.',
+      title: 'Farming Solutions and Advice',
+      description: 'Access practical farming advice on pest control, soil health, and irrigation methods tailored to your needs.',
       delay: 0.4,
-      navigationlink: '/english-advanced',
+      navigationlink: '/farming-solutions',
     },
     {
       icon: Star,
-      title: 'Logical Reasoning ',
-      description: 'Fun and engaging activities to strengthen logical reasoning and mental math skills, fostering problem-solving abilities',
+      title: 'Crop Lifecycle Guidance',
+      description: 'Learn about the stages of crop growth, from planting to harvesting, with expert advice on how to maximize yield at each phase.',
       delay: 0.6,
-      navigationlink: '/logical-reasoning',
+      navigationlink: '/crop-lifecycle',
     },
     {
       icon: Brush,
-      title: 'Art & Crafts',
-      description: 'Explore creativity with various art styles taught by an experienced JJ Arts veteran, offering sessions from beginner to advanced levels.',
+      title: 'Sustainable Farming Practices',
+      description: 'Discover eco-friendly farming techniques that promote sustainability while ensuring higher productivity and healthier crops.',
       delay: 0.8,
-      navigationlink: '/art-craft',
+      navigationlink: '/sustainable-farming',
     },
     {
       icon: Code,
-      title: 'Coding & Games',
-      description: 'Specialized coding classes in C, C++, Java, Scratch, and Python, tailored to individual learning levels to develop programming skills.',
+      title: 'Farm Management Tools',
+      description: 'Explore digital tools and software solutions for efficient farm management, including inventory tracking, scheduling, and budgeting.',
       delay: 1,
-      navigationlink: '/academic',
+      navigationlink: '/farm-management',
     },
-  ];
+];
+
 
 
   return (

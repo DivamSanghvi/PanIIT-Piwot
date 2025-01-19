@@ -8,46 +8,47 @@ import photo1 from "../../../Temp/smiling-businessman-face-portrait-wearing-suit
 // Sample testimonial data
 const testimonials = [
   {
-    name: 'Linda Anand',
-    role: 'DESIGNER',
+    name: 'Rajesh Kumar',
+    role: 'FARMER',
     rating: 2,
-    text: 'Exceptional quality and professional approach. Would highly recommend to anyone seeking top-tier service.',
+    text: 'The crop price prediction helped me make better selling decisions, but the system could use more local data for accuracy.',
     avatar: {photo1},
     social: <Twitter className="h-5 w-5 text-[#1DA1F2]" />,
   },
   {
-    name: 'David Gueta',
-    role: 'ARTIST',
+    name: 'Anita Sharma',
+    role: 'AGRICULTURAL EXPERT',
     rating: 5,
-    text: 'Innovative solutions and outstanding support. The team went above and beyond to ensure satisfaction.',
+    text: 'The disease prediction feature is a game-changer! It has helped me manage plant diseases with ease.',
     avatar: '/placeholder.svg?height=80&width=80',
     social: <Twitter className="h-5 w-5 text-[#1DA1F2]" />,
   },
   {
-    name: 'Sarah Chen',
-    role: 'DEVELOPER',
+    name: 'Vikram Singh',
+    role: 'HORTICULTURIST',
     rating: 5,
-    text: 'Remarkable attention to detail and creative problem-solving. A truly exceptional experience.',
+    text: 'The farming solutions and advice provided are invaluable. They helped improve the quality of my crops significantly.',
     avatar: '/placeholder.svg?height=80&width=80',
     social: <Instagram className="h-5 w-5 text-[#E4405F]" />,
   },
   {
-    name: 'Michael Ross',
-    role: 'ENTREPRENEUR',
+    name: 'Neha Patel',
+    role: 'AGRI-TECH ENTREPRENEUR',
     rating: 5,
-    text: 'Outstanding service and incredible results. Couldn\'t be happier with the outcome.',
+    text: 'I was amazed by the crop lifecycle guidance. It gave me clear insights into when to plant and harvest for maximum yield.',
     avatar: '/placeholder.svg?height=80&width=80',
     social: <Facebook className="h-5 w-5 text-[#1877F2]" />,
   },
   {
-    name: 'Frank Klin',
-    role: 'DESIGNER',
+    name: 'Ravi Mehta',
+    role: 'SUSTAINABILITY CONSULTANT',
     rating: 5,
-    text: 'Impressive service and attention to detail. Exceeded all expectations. Truly a service that delivers.',
+    text: 'The sustainable farming practices section is incredibly useful. I’ve adopted several techniques that have improved my farm’s productivity.',
     avatar: '/placeholder.svg?height=80&width=80',
     social: <Twitter className="h-5 w-5 text-[#1DA1F2]" />,
   },
 ]
+
 
 export default function TestimonialCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
