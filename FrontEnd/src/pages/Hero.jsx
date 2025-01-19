@@ -18,7 +18,7 @@ const HeroSection = () => {
     3000,
     'For Expert Farming Solutions',
     3000,
-    'For Comprehensive Crop Lifecycle Information',
+    'For Comprehensive Crop Lifecycle',
     3000,
 ];
 

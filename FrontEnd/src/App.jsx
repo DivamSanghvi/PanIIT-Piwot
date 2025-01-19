@@ -33,6 +33,9 @@ import { useEffect } from 'react'
 import SpeechWidget from './pages/textToSpeech'
 import CattleDiseaseAnalyzer from './pages/CattleDoc'
 import ProductSearchAndResults from './pages/Product'
+import AadhaarSignup from './pages/SignUp'
+import FarmerLogin from './pages/Login'
+import FarmerDetailsForm from './pages/NextStep'
 
 
 function App() {
@@ -83,6 +86,10 @@ function App() {
           <Route path="/lifecycle" element={<EnhancedCropLifecycleTimeline/>} />
           <Route path="/cattle" element={<CattleDiseaseAnalyzer/>} />
           <Route path="/product" element={<ProductSearchAndResults/>} />
+          
+          <Route path="/aadhar" element={<AadhaarSignup/>} />
+          <Route path="/login" element={<FarmerLogin/>} />
+          <Route path="/details" element={<FarmerDetailsForm/>} />
         </Routes>
       </main>
       <Footer />
