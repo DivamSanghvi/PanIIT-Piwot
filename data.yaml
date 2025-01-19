@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['buffalo', 'cat', 'cow', 'dog', 'injured', 'person']
+
+roboflow:
+  workspace: sunny-83vgc
+  project: injured-animal-detector-6zzbu
+  version: 7
+  license: Public Domain
+  url: https://universe.roboflow.com/sunny-83vgc/injured-animal-detector-6zzbu/dataset/7
