@@ -443,4 +443,70 @@ export const analyzeCattleDisease = async (req, res) => {
   }
 };
 
+export const productLinks = async (req, res) => {
+  const { productName } = req.body; // Get the product name from the request body
+
+  if (!productName) {
+    return res.status(400).json({ message: 'Product name is required' });
+  }
+
+  try {
+    // Prepare the prompt for Gemini model to return 10 products with company landing page links
+    const promptConfig = [
+      {
+        text: `Given the product name "${productName}", please return a JSON response with 10 products in the following format:
+        [
+          {
+            "name": "<Product Name>",
+            "link": "<URL link to the company landing page, not the product page (e.g., https://www.companyname.com)>",
+            "description": "<Short description of the product, at least 50 words>",
+          },
+          ...
+        ]
+        Note: The response should strictly follow the format above. Provide the name, company landing page link (not the product page), and a short description for 10 products. Each product should have its own entry. Do not include any extra information or formatting.`
+      }
+    ];
+
+    // Generate content from Gemini model using the prepared prompt
+    const result = await geminiModel.generateContent({
+      contents: [{ role: "user", parts: promptConfig }],
+    });
+
+    // Get the response from Gemini
+    const response = await result.response;
+
+    // Parse and send back the JSON response with 10 product details
+    const products = JSON.parse(response.text());
+    
+    if (products.length !== 10) {
+      return res.status(500).json({
+        success: false,
+        message: 'Gemini API returned less than 10 products.',
+      });
+    }
+
+    // Map the URLs to the landing page only (removing product-specific paths if needed)
+    const updatedProducts = products.map(product => {
+      const landingPageLink = product.link.split('/')[0] + '//' + product.link.split('/')[2]; // Extract company landing page
+      return {
+        ...product,
+        link: landingPageLink,
+      };
+    });
+
+    return res.json({
+      success: true,
+      data: updatedProducts, // Array of 10 products with company landing page links
+    });
+  } catch (error) {
+    console.error('Error with Gemini API:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to get a response from Gemini API',
+    });
+  }
+};
+
+
+
   
