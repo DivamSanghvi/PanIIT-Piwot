@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
-import picture from "../../Temp/Hero.jpg"
+import picture from "../../Temp/farmer-holding-crops-field.jpg"
 
 const HeroSection = () => {
   const colors = {
@@ -197,5 +197,6 @@ const HeroSection = () => {
     </div>
   )
 }
+
 
 export default HeroSection
