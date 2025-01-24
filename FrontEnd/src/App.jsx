@@ -40,6 +40,7 @@ import MapComponent from './pages/gmaps'
 import Dashboard from './pages/Dashboard'
 import FieldDashboard from './pages/fieldDashboard'
 
+import FarmerSignupV2 from './pages/SignUp'
 
 
 function App() {
@@ -91,7 +92,7 @@ function App() {
           <Route path="/cattle" element={<CattleDiseaseAnalyzer/>} />
           <Route path="/product" element={<ProductSearchAndResults/>} />
           
-          <Route path="/aadhar" element={<AadhaarSignup/>} />
+          <Route path="/aadhar" element={<FarmerSignupV2/>} />
           <Route path="/login" element={<FarmerLogin/>} />
           <Route path="/details" element={<FarmerDetailsForm/>} />
 

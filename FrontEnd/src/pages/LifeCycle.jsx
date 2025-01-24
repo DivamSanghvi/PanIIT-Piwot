@@ -1,46 +1,53 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedHeroSection from '../components/other/LifeCycleHero';
+import { useSelector } from "react-redux";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 const EnhancedCropLifecycleTimeline = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [selectedPhase, setSelectedPhase] = useState(null);
   const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user);
 
   const fetchLifecycleData = async () => {
     setLoading(true);
     setError(null);
   
+    // Get the user data from Redux state
+    
+    console.log(user)
+    // Ensure user exists before making the API call
+    if (!user || !user.user || !user.user._id) {
+      console.error("User ID is missing.");
+      setError("User ID not found.");
+      setLoading(false);
+      return;
+    }
+  
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/v1/user/croplifecycle/678bd214c670f776228d693b'
+        `http://localhost:8000/api/v1/user/croplifecycle/${user.user._id}`
       );
   
-      // Log the raw response to see its structure
-      console.log('Raw response data:', response.data);
+      console.log("Raw response data:", response.data);
   
-      // Get the raw data containing the JSON string
       const rawData = response.data.data;
+      const jsonString = rawData.replace(/```json\n|\n```/g, "").trim();
   
-      // Clean the raw string by removing the markdown code blocks
-      const jsonString = rawData.replace(/```json\n|\n```/g, '').trim(); // Remove markdown code blocks and trim extra whitespace
-  
-      // Check if the cleaned string is a valid JSON string before parsing
       try {
         const apiResponse = JSON.parse(jsonString);
-        console.log('Parsed API response:', apiResponse); // Log parsed data to verify
-  
-        // Set the cleaned data
+        console.log("Parsed API response:", apiResponse);
         setData(apiResponse);
       } catch (parseError) {
-        console.error('Error parsing JSON:', parseError.message);
-        setError('Failed to parse lifecycle data.');
+        console.error("Error parsing JSON:", parseError.message);
+        setError("Failed to parse lifecycle data.");
       }
   
     } catch (error) {
-      console.error('Error fetching lifecycle data:', error.message);
-      setError('Failed to fetch data. Please try again.');
+      console.error("Error fetching lifecycle data:", error.message);
+      setError("Failed to fetch data. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -133,26 +140,44 @@ const EnhancedCropLifecycleTimeline = () => {
         </AnimatePresence>
 
         {error && (
-          <motion.div
-            className="mt-12 p-8 bg-red-100 rounded-lg shadow-lg text-center"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-          >
-            <p className="text-xl font-semibold text-red-600">{error}</p>
-            <motion.button
-              onClick={() => {
-                setError(null);
-                fetchLifecycleData();
-              }}
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Try Again
-            </motion.button>
-          </motion.div>
-        )}
+  <motion.div
+    className="mt-12 p-8 bg-white rounded-2xl shadow-xl text-center max-w-md mx-auto border border-red-300"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -50 }}
+  >
+    {/* Illustration */}
+    <div className="flex justify-center">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/6171/6171361.png" 
+        alt="User not logged in"
+        className="w-32 h-32 mb-4"
+      />
+    </div>
+
+    {/* Error Message */}
+    <h2 className="text-2xl font-bold text-red-600">User Not Logged In</h2>
+    <p className="text-gray-600 mt-2 text-lg">
+      Please log in to access this feature.
+    </p>
+
+    {/* Login Button */}
+    <Link to={"/login"}>
+    <motion.button
+      onClick={() => {
+        setError(null);
+        fetchLifecycleData();
+      }}
+      className="mt-6 px-6 py-3 text-white font-semibold rounded-full bg-gradient-to-r from-red-500 to-red-700 shadow-lg hover:from-red-600 hover:to-red-800 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-400"
+      whileHover={{ scale: 1.07 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      Login
+    </motion.button>
+    </Link>
+  </motion.div>
+)}
+
 
         {data && (
           <motion.div
