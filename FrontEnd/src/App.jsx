@@ -36,6 +36,7 @@ import ProductSearchAndResults from './pages/Product'
 import AadhaarSignup from './pages/SignUp'
 import FarmerLogin from './pages/Login'
 import FarmerDetailsForm from './pages/NextStep'
+import FarmerSignupV2 from './pages/SignUp'
 
 
 function App() {
@@ -87,7 +88,7 @@ function App() {
           <Route path="/cattle" element={<CattleDiseaseAnalyzer/>} />
           <Route path="/product" element={<ProductSearchAndResults/>} />
           
-          <Route path="/aadhar" element={<AadhaarSignup/>} />
+          <Route path="/aadhar" element={<FarmerSignupV2/>} />
           <Route path="/login" element={<FarmerLogin/>} />
           <Route path="/details" element={<FarmerDetailsForm/>} />
         </Routes>
