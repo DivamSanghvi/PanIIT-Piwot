@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { analyzeCattleDisease, analyzePlantDisease, askGemini, getCropLifeCycle, getWeatherByPincode, productLinks, signup } from "../controllers/FarmerControllers/farmer.controller.js";
+import { analyzeCattleDisease, analyzePlantDisease, askGemini, getCropLifeCycle, getWeatherByPincode, productLinks, signup, getLocation, getGraph, getFieldsByFarmer } from "../controllers/FarmerControllers/farmer.controller.js";
 import { login } from "../controllers/FarmerControllers/farmer.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 const router = Router()
@@ -22,5 +22,8 @@ router.route("/cattleDisease").post(upload.fields([
     }
 ]),analyzeCattleDisease)
 router.route("/product").post(productLinks)
+router.route("/getLocation").post(getLocation)
+router.route("/getGraph").post(getGraph)
+router.route("/getFields/:farmerId").get(getFieldsByFarmer)
 
 export default router

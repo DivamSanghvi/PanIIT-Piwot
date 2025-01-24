@@ -36,6 +36,10 @@ import ProductSearchAndResults from './pages/Product'
 import AadhaarSignup from './pages/SignUp'
 import FarmerLogin from './pages/Login'
 import FarmerDetailsForm from './pages/NextStep'
+import MapComponent from './pages/gmaps'
+import Dashboard from './pages/Dashboard'
+import FieldDashboard from './pages/fieldDashboard'
+
 
 
 function App() {
@@ -90,6 +94,11 @@ function App() {
           <Route path="/aadhar" element={<AadhaarSignup/>} />
           <Route path="/login" element={<FarmerLogin/>} />
           <Route path="/details" element={<FarmerDetailsForm/>} />
+
+          <Route path="/gmaps" element={<MapComponent/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/displayGraph" element={<FieldDashboard/>}/>
+
         </Routes>
       </main>
       <Footer />
