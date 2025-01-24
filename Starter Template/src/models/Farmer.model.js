@@ -1,113 +1,106 @@
-  import mongoose from "mongoose";
+import mongoose from "mongoose";
+import { string } from "three/tsl";
 
-  const FarmerSchema = new mongoose.Schema({
-    fullname: {
-      firstname: {
-        type: String,
-        required: true,
-      },
-      lastname: {
-        type: String,
-        required: true,
-      },
-    },
-    phoneNumber: {
-      type: Number,
-      required: true,
-      unique: true,
-      validate: {
-        validator: function (v) {
-          return /^[6-9]\d{9}$/.test(v); // Validates Indian phone numbers
-        },
-        message: (props) => `${props.value} is not a valid phone number!`,
-      },
-    },
-    aadharCard: {
+const FarmerSchema = new mongoose.Schema({
+  fullname: {
+    firstname: {
       type: String,
       required: true,
-      unique: true,
-      validate: {
-        validator: function (v) {
-          return /^\d{12}$/.test(v); // Validates 12-digit Aadhaar numbers
-        },
-        message: (props) => `${props.value} is not a valid Aadhaar number!`,
-      },
     },
-    email: {
+    lastname: {
       type: String,
-      validate: {
-        validator: function (v) {
-          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid email address!`,
-      },
-    },
-    address: {
-      village: { type: String, required: true },
-      district: { type: String, required: true },
-      state: { type: String, required: true },
-      pincode: {
-        type: Number,
-        required: true,
-        validate: {
-          validator: function (v) {
-            return /^\d{6}$/.test(v); // Validates Indian pincodes
-          },
-          message: (props) => `${props.value} is not a valid pincode!`,
-        },
-      },
-    },
-    landDetails: {
-      landSize: {
-        type: Number, // in acres
-      },
-      irrigationType: {
-        type: String,
-        enum: ["Rainfed", "Irrigated", "Partially Irrigated"],
-      },
-      soilType: {
-        type: String,
-        enum: [
-          "Sandy",
-          "Clayey",
-          "Loamy",
-          "Silty",
-          "Peaty",
-          "Chalky",
-          "Saline",
-        ],
-        required: true,
-      },
-    },
-    preferredCrops: [
-      {
-        type: String,
-      },
-    ],
-    farmingExperience: {
-      type: Number, // in years
       required: true,
     },
-    equipmentOwned: [
-      {
-        type: String,
+  },
+  phoneNumber: {
+    type: Number,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function (v) {
+        return /^[6-9]\d{9}$/.test(v); // Validates Indian phone numbers
       },
-    ],
-    climaticDetails: {
-      averageRainfall: {
-        type: Number, // in mm
-      },
-      temperatureRange: {
-        min: Number, // in degrees Celsius
-        max: Number, // in degrees Celsius
-      },
+      message: (props) => `${props.value} is not a valid phone number!`,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+  },
+  password : {
+    type : String,
+    required: true,
+  },
+  aadharCard: {
+    type: String,
+    required: true,
+    unique: true,
+    
+  },
+  email: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid email address!`,
     },
-  });
+  },
+  pincode: {
+    type: Number,
+    required: true,
+    validate: {
+      validator: function (v) {
+        return /^\d{6}$/.test(v); // Validates Indian pincodes
+      },
+      message: (props) => `${props.value} is not a valid pincode!`,
+    },
+  },
+  landDetails: {
+    landSize: {
+      type: Number, // in acres
+    },
+    irrigationType: {
+      type: String,
+      enum: ["Rainfed", "Irrigated", "Partially Irrigated"],
+    },
+    soilType: {
+      type: String,
+      enum: ["Sandy", "Clayey", "Loamy", "Silty", "Peaty", "Chalky", "Saline"],
+      required: true,
+    },
+  },
+  preferredCrops: [
+    {
+      type: String,
+    },
+  ],
+  farmingExperience: {
+    type: Number, // in years
+    required: true,
+  },
+  equipmentOwned: [
+    {
+      type: String,
+    },
+  ],
+  climaticDetails: {
+    averageRainfall: {
+      type: Number, // in mm
+    },
+    humidity: {
+      type: Number
+    },
+    weather: {
+      type: String
+    },
+    temperatureRange: {
+      min: Number, // in degrees Celsius
+      max: Number, // in degrees Celsius
+    },
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-  const Farmer = mongoose.model("Farmer", FarmerSchema);
+const Farmer = mongoose.model("Farmer", FarmerSchema);
 
-  export default Farmer;
+export default Farmer;
